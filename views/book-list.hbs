@@ -1,0 +1,9 @@
+<a href="/books/add">ADD A BOOK</a>
+<ul>
+  {{#each allBooks}}
+  <li>{{this.title}} // {{#each this.authors}}{{this.name}} {{this.lastName}} , {{/each}} // {{this.rating}}
+    <a href="/books/edit/{{this.id}}">EDIT</a>
+    <form action="/books/delete/{{this.id}}" method="post"><button type="submit">DELETE</button></form>
+  </li>
+  {{/each}}
+</ul>
