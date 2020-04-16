@@ -41,11 +41,28 @@ router.post('/add', (req, res) => {
 
 })
 
+
 // UPDATE
 // GET /books/edit/:identifier
 router.get('/edit/:identifier', (req, res) => {
   Book.findById(req.params.identifier).then((book) => {
-    res.render('book-update', { myBook: book })
+    Author.find().then((authors) => {
+
+      // mark all authors in my list of authors that are one of the current book's authors
+      authors.forEach((a) => {
+        if (book.authors.includes(a._id)) {
+          a.selected = true
+        }
+      })
+
+      console.log(authors[0].selected)
+      console.log(authors[1].selected)
+      console.log(authors[2].selected)
+      // unfortunately the `selected` property for each author does not get logged here, but it is there (see above)
+      console.log(authors)
+
+      res.render('book-update', { myBook: book, allAuthors: authors })
+    })
   })
 
 })
@@ -59,7 +76,7 @@ router.post('/edit/:identifier', (req, res) => {
   Book.findByIdAndUpdate(req.params.identifier, {
     title: req.body.title,
     description: req.body.description,
-    author: req.body.author,
+    authors: req.body.author,
     rating: req.body.rating
   }).then(() => {
     res.redirect('/books')
