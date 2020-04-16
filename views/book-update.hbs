@@ -3,7 +3,11 @@
   <input type="text" name="title" value="{{myBook.title}}">
 
   <label for="">Author:</label>
-  <input type="text" name="author" value="{{myBook.author}}">
+ <select multiple name="author">
+    {{#each allAuthors}}
+    <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.lastName}}</option>
+    {{/each}}
+  </select>
 
   <label for="">Description:</label>
   <input type="text" name="description" value="{{myBook.description}}">
